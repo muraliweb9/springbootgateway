@@ -8,6 +8,19 @@ spring:
         url: http://localhost:8100
         # When shut down deregisters from spring boot admin
         auto-deregistration: true
+  cloud:
+    #org.springframework.cloud.gateway.config.GatewayProperties
+    gateway:
+      enabled: true
+      routes:
+      - id: baeldung_route
+        uri: http://baeldung.com
+        predicates:
+        - Path=/baeldung
+      - id: google_route
+        uri: http://www.google.com
+        predicates:
+        - Path=/google
 server:
   port: 8200
   error:
@@ -18,31 +31,44 @@ logging:
     name: gateway-app.log
     max-history: 5
     max-size: 10MB
-    management:
-      endpoint:
-        env:
-          # show the values in actuator/env endpoint
-          # e.g. http://localhost:8100/actuator/env
-          show-values: ALWAYS
-        configprops:
-          # show the values in actuator/configprops endpoint
-          # e.g. http://localhost:8100/actuator/configprops
-          show-values: ALWAYS
-        health:
-          # Note show-details
-          show-details: ALWAYS
-        shutdown:
-          enabled: true
-      endpoints:
-        env:
-          # mask these values in actuator/env endpoint
-          keys-to-sanitize: password,secret
-        configprops:
-          # mask these values in actuator/configprops endpoint
-          keys-to-sanitize: password,secret
-        web:
-          exposure:
-            include: "*"
+management:
+  endpoint:
+    env:
+      # show the values in actuator/env endpoint
+      # e.g. http://localhost:8100/actuator/env
+      show-values: ALWAYS
+    configprops:
+      # show the values in actuator/configprops endpoint
+      # e.g. http://localhost:8100/actuator/configprops
+      show-values: ALWAYS
+    health:
+      # Note show-details
+      show-details: ALWAYS
+    shutdown:
+      enabled: true
+  endpoints:
+    env:
+      # mask these values in actuator/env endpoint
+      keys-to-sanitize: password,secret
+    configprops:
+      # mask these values in actuator/configprops endpoint
+      keys-to-sanitize: password,secret
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      # All the GIT info
+      mode: full
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
 eureka:
   client:
     registerWithEureka: true
