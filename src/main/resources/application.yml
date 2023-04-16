@@ -17,10 +17,18 @@ spring:
         uri: http://baeldung.com
         predicates:
         - Path=/baeldung
+        filters:
+          # Send http://localhost:8200/baeldung
+          # To http://baeldung.com/
+          - RewritePath=/baeldung,/
       - id: google_route
         uri: http://www.google.com
         predicates:
         - Path=/google
+        filters:
+          # Send http://localhost:8200/google
+          # To http://www.google.com/
+          - RewritePath=/google,/
 server:
   port: 8200
   error:
@@ -35,16 +43,27 @@ management:
   endpoint:
     env:
       # show the values in actuator/env endpoint
-      # e.g. http://localhost:8100/actuator/env
+      # e.g. http://localhost:8200/actuator/env
       show-values: ALWAYS
     configprops:
       # show the values in actuator/configprops endpoint
-      # e.g. http://localhost:8100/actuator/configprops
+      # e.g. http://localhost:8200/actuator/configprops
       show-values: ALWAYS
     health:
       # Note show-details
       show-details: ALWAYS
     shutdown:
+      enabled: true
+    # show all routes in /actuator/gateway/routes endpoint
+    # e.g. http://localhost:8200/actuator/gateway/routes
+    # Others
+    # GET: /actuator/gateway/globalfilters
+    # GET: /actuator/gateway/routefilters
+    # POST: /actuator/gateway/refresh
+    # GET: /actuator/gateway/routes/{id}
+    # POST: /gateway/routes/{id_route_to_create}
+    # DELETE: /gateway/routes/{id_route_to_delete}
+    gateway:
       enabled: true
   endpoints:
     env:
@@ -79,4 +98,3 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}:${random.value}}
-
