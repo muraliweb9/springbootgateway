@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Gateway App
+    name: gateway-app
   boot:
     admin:
       client:
