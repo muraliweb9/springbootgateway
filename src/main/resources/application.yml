@@ -13,14 +13,8 @@ spring:
     gateway:
       enabled: true
       routes:
-      - id: baeldung_route
-        uri: http://baeldung.com
-        predicates:
-        - Path=/baeldung
-        filters:
-          # Send http://localhost:8200/baeldung
-          # To http://baeldung.com/
-          - RewritePath=/baeldung,/
+      # View all the routes here:
+      # http://localhost:8200/actuator/gateway/routes
       - id: google_route
         uri: http://www.google.com
         predicates:
@@ -29,6 +23,18 @@ spring:
           # Send http://localhost:8200/google
           # To http://www.google.com/
           - RewritePath=/google,/
+      - id: car_hire_app_route
+        # lb - load balancer
+        # Will look up car-hire-app service in Eureka and route
+        # This to the server and port the car-hire-app instance is running
+        uri: lb://car-hire-app
+        predicates:
+          # e.g. http://localhost:8200/carhire/cars
+          # will be routed to
+          # http://localhost:52507/carhire/cars
+          # If car-hire-app microservice is running at
+          # http://localhost:52507
+          - Path=/carhire/**
 server:
   port: 8200
   error:
