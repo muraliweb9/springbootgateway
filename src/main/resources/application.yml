@@ -43,10 +43,22 @@ spring:
         predicates:
           # e.g. http://localhost:8200/carworkflow/startProcess
           # will be routed to
-          # http://localhost:52507/carworkflow/cars
-          # If car-hire-app microservice is running at
+          # http://localhost:52507/carworkflow/startProcess
+          # If car-workflow-app microservice is running at
           # http://localhost:52507
           - Path=/carworkflow/**
+      - id: car_workflow_cloud_app_route
+        # lb - load balancer
+        # Will look up car-workflow-cloud-app service in Eureka and route
+        # This to the server and port the car-workflow-cloud-app instance is running
+        uri: lb://car-workflow-cloud-app
+        predicates:
+          # e.g. http://localhost:8200/carworkflowcloud/startProcess
+          # will be routed to
+          # http://localhost:52507/carworkflowcloud/startProcess
+          # If car-workflow-cloud-app microservice is running at
+          # http://localhost:52507
+          - Path=/carworkflowcloud/**
 server:
   port: 8200
   error:
