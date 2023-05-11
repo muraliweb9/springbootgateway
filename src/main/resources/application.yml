@@ -58,8 +58,7 @@ spring:
           # http://localhost:52507/carworkflowcloud/startProcess
           # If car-workflow-cloud-app microservice is running at
           # http://localhost:52507
-          - Path=/carworkflowcloud/**
-          - Path=/secured/carworkflowcloud/**
+          - Path=/carworkflowcloud/**, /secured/carworkflowcloud/**
 server:
   port: 8200
   error:
